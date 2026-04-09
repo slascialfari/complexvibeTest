@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-fullscreen" />
+  <title>Street Walker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Game canvas container -->
+  <div id="game-container">
+
+    <!-- Background layer: the scrolling street scene -->
+    <div id="bg-layer">
+      <img id="bg-img" src="assets/background.png" alt="" draggable="false" />
+    </div>
+
+    <!-- Ground line: visual reference, sits at the bottom of the scene area -->
+    <div id="ground"></div>
+
+    <!-- Hero sprite: rendered via sprite sheet switching in JS -->
+    <img id="hero" src="assets/frame_01.png" alt="hero" draggable="false" />
+
+    <!-- Finish line / end-of-level marker -->
+    <div id="finish-line"></div>
+
+    <!-- UI overlay: tap-to-start / win screen -->
+    <div id="ui-overlay">
+      <div id="start-screen" class="ui-screen active">
+        <p class="ui-label">TAP &amp; HOLD</p>
+        <p class="ui-sublabel">to walk</p>
+        <div class="ui-hint-icon">👆</div>
+      </div>
+
+      <div id="win-screen" class="ui-screen">
+        <p class="ui-label">YOU MADE IT</p>
+        <div class="ui-hint-icon">🏁</div>
+        <button id="restart-btn">AGAIN</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Ambient audio (muted until first touch — required by iOS policy) -->
+  <audio id="ambient" src="assets/home_ambient.mp3" loop preload="auto"></audio>
+
+  <script src="app.js"></script>
+</body>
+</html>

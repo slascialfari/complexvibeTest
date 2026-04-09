@@ -1,0 +1,193 @@
+/* ============================================================
+   STREET WALKER — style.css
+   Portrait mobile, 375×812 reference, no scrolling
+   ============================================================ */
+
+/* ---------- Reset & base ---------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #b0c4d8; /* sky fallback */
+  touch-action: none;
+}
+
+/* ---------- Game container ---------- */
+#game-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ---------- Background (scrolling parallax) ---------- */
+#bg-layer {
+  position: absolute;
+  /* bg sits in the bottom ~60% of screen, simulating street-level POV */
+  top: 0;
+  left: 0;
+  height: 100%;
+  /* width is set dynamically by JS based on bg natural aspect ratio */
+  will-change: transform;
+}
+
+#bg-img {
+  display: block;
+  height: 100%;
+  width: auto;
+  /* black pixels in the frames are the background — make them transparent */
+  mix-blend-mode: normal;
+  pointer-events: none;
+  draggable: false;
+}
+
+/* ---------- Ground strip ---------- */
+#ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* height is just a visual shadow strip — not a physics floor */
+  height: 6px;
+  background: rgba(0,0,0,0.18);
+}
+
+/* ---------- Hero sprite ---------- */
+#hero {
+  position: absolute;
+  /* size: character is ~237×443px natural; we scale to screen */
+  /* JS sets left, bottom, width/height after measuring viewport */
+  image-rendering: auto;
+  pointer-events: none;
+  will-change: left;
+  /* Black background on PNGs — use multiply to drop black pixels */
+  mix-blend-mode: multiply;
+}
+
+/* ---------- Finish line ---------- */
+#finish-line {
+  position: absolute;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    #fff 0px,
+    #fff 14px,
+    #111 14px,
+    #111 28px
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+#finish-line.visible {
+  opacity: 0.85;
+}
+
+/* ---------- UI overlay ---------- */
+#ui-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.ui-screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+}
+.ui-screen.active {
+  display: flex;
+}
+
+.ui-label {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #fff;
+  text-shadow:
+    2px 2px 0 #000,
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000;
+}
+
+.ui-sublabel {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  color: #e0e0e0;
+  text-shadow: 1px 1px 0 #000;
+  text-transform: uppercase;
+}
+
+.ui-hint-icon {
+  font-size: 48px;
+  animation: bounce 1.1s ease-in-out infinite;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ---------- Restart button ---------- */
+#restart-btn {
+  margin-top: 14px;
+  padding: 14px 40px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #fff;
+  background: #222;
+  border: 3px solid #fff;
+  cursor: pointer;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 rgba(255,255,255,0.3);
+  pointer-events: auto;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+#restart-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+}
+
+/* ---------- Progress bar ---------- */
+#progress-bar-wrap {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 6px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 3px;
+  overflow: hidden;
+  z-index: 9;
+}
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #fff;
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
